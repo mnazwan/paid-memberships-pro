@@ -76,8 +76,12 @@ function pmpro_send_html( $phpmailer ) {
 	if($phpmailer->Body == strip_tags($phpmailer->Body))
 		$phpmailer->Body = wpautop($phpmailer->Body);
 	
-	// Convert line breaks & make links clickable
+	// Make links clickable
 	$phpmailer->Body = make_clickable ($phpmailer->Body);
+	
+	// Convert line breaks
+	if(strpos('<br />', $phpmailer->Body) === false)
+		$phpmailer->Body = nl2br( $phpmailer->Body );
 		
 	// Get header for message if found
 	if(file_exists(get_stylesheet_directory() . "/email_header.html"))
